@@ -1,0 +1,35 @@
+<div>
+  <div>
+    <input type="text" [(ngModel)]="departmentName" (ngModelChange)="getDepartment()"/>
+    <button (click)="getDepartmentByName(departmentName)">Search Department</button>
+    <button (click)="openDepartmentFormToCreate()">Create Department</button>
+  </div>
+  <br/>
+  <div class="department_hierarchy_grid" *ngIf="department.name.length > 0">
+    <div class="department_hierarchy_grid_column_1 border_bottom">department</div>
+    <div class="department_hierarchy_grid_column_2 border_bottom">subdepartment</div>
+    <div class="department_hierarchy_grid_column_3 border_bottom">category</div>
+    <div class="department_hierarchy_grid_column_1 border_bottom department_hierarchy_grid_item" [ngStyle]="{ 'grid-row': 'span ' + getDepartmentRowSize(department) }">
+      <p >
+        {{ department.name }}
+        <button (click)="openDepartmentFormToEdit()">Edit</button>
+        <button (click)="openSubDepartmentFormToCreate()">new sub department</button>
+      </p>
+    </div>
+    <ng-container *ngFor="let subDepartment of department.subDepartments">
+      <div class="department_hierarchy_grid_column_2 border_bottom department_hierarchy_grid_item" [ngStyle]="{'grid-row': 'span ' + getSubDepartmentRowSize(subDepartment)}">
+        <p *ngIf="subDepartment.name.length > 0">
+          {{ subDepartment.name }}
+          <button (click)="openSubDepartmentFormToEdit(subDepartment)">Edit</button>
+          <button >new category</button>
+        </p>
+      </div>
+      <div class="department_hierarchy_grid_column_3 border_bottom department_hierarchy_grid_item" *ngFor="let category of subDepartment.categories">
+        <p *ngIf="category.name.length > 0">
+          {{ category.name }}
+          <button (click)="openCategoryFormToEdit(category, subDepartment)">Edit</button>
+        </p>
+      </div>
+    </ng-container>
+  </div>
+</div>

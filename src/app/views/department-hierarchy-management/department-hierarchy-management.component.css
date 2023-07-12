@@ -1,0 +1,27 @@
+.department_hierarchy_grid{
+  display: grid;
+  grid-template-columns: 33% 33% 34%;
+}
+
+.border_bottom{
+  border-bottom: 1px solid black;
+}
+
+.department_hierarchy_grid_column_1{
+  grid-column: 1;
+}
+
+.department_hierarchy_grid_column_2{
+  grid-column: 2;
+}
+
+.department_hierarchy_grid_column_3{
+  grid-column: 3;
+}
+
+.department_hierarchy_grid_item{
+  display: flex;
+  align-items: center;
+}
+
+

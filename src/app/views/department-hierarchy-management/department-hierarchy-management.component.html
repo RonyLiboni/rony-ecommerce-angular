@@ -1,33 +1,41 @@
 <div>
-  <div>
-    <input type="text" [(ngModel)]="departmentName" (ngModelChange)="getDepartment()"/>
-    <button (click)="getDepartmentByName(departmentName)">Search Department</button>
-    <button (click)="openDepartmentFormToCreate()">Create Department</button>
+  <div class="flex_container">
+    <mat-form-field class="flex_item">
+      <mat-label>Department name</mat-label>
+      <input matInput type="text" [(ngModel)]="departmentName" (ngModelChange)="getDepartment()">
+      <button *ngIf="departmentName" mat-icon-button color="primary" matSuffix aria-label="Search button" (click)="getDepartmentByName(departmentName)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <button  mat-raised-button color="primary" (click)="openDepartmentForm(buildEmptyDepartment())">
+      Create Department
+    </button>
   </div>
   <br/>
   <div class="department_hierarchy_grid" *ngIf="department.name.length > 0">
-    <div class="department_hierarchy_grid_column_1 border_bottom">department</div>
-    <div class="department_hierarchy_grid_column_2 border_bottom">subdepartment</div>
-    <div class="department_hierarchy_grid_column_3 border_bottom">category</div>
-    <div class="department_hierarchy_grid_column_1 border_bottom department_hierarchy_grid_item" [ngStyle]="{ 'grid-row': 'span ' + getDepartmentRowSize(department) }">
+    <div class="grid_column_1 border_bottom">department</div>
+    <div class="grid_column_2 border_bottom">subdepartment</div>
+    <div class="grid_column_3 border_bottom">category</div>
+    <div class="grid_column_1 border_bottom department_hierarchy_grid_item"
+    [ngStyle]="{ 'grid-row': 'span ' + getDepartmentRowSize(department) }">
       <p >
         {{ department.name }}
-        <button (click)="openDepartmentFormToEdit()">Edit</button>
-        <button (click)="openSubDepartmentFormToCreate()">new sub department</button>
+        <button (click)="openDepartmentForm(department)"><mat-icon>edit</mat-icon></button>
+        <button (click)="openSubDepartmentForm(buildEmptySubDepartment())">new sub department</button>
       </p>
     </div>
     <ng-container *ngFor="let subDepartment of department.subDepartments">
-      <div class="department_hierarchy_grid_column_2 border_bottom department_hierarchy_grid_item" [ngStyle]="{'grid-row': 'span ' + getSubDepartmentRowSize(subDepartment)}">
+      <div class="grid_column_2 border_bottom department_hierarchy_grid_item" [ngStyle]="{'grid-row': 'span ' + getSubDepartmentRowSize(subDepartment)}">
         <p *ngIf="subDepartment.name.length > 0">
           {{ subDepartment.name }}
-          <button (click)="openSubDepartmentFormToEdit(subDepartment)">Edit</button>
-          <button >new category</button>
+          <button (click)="openSubDepartmentForm(subDepartment)"><mat-icon>edit</mat-icon></button>
+          <button (click)="openCategoryForm(buildEmptyCategory(), subDepartment)">new category</button>
         </p>
       </div>
-      <div class="department_hierarchy_grid_column_3 border_bottom department_hierarchy_grid_item" *ngFor="let category of subDepartment.categories">
+      <div class="grid_column_3 border_bottom department_hierarchy_grid_item" *ngFor="let category of subDepartment.categories">
         <p *ngIf="category.name.length > 0">
           {{ category.name }}
-          <button (click)="openCategoryFormToEdit(category, subDepartment)">Edit</button>
+          <button (click)="openCategoryForm(category, subDepartment)"><mat-icon>edit</mat-icon></button>
         </p>
       </div>
     </ng-container>

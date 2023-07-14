@@ -11,10 +11,10 @@ import { DepartmentService } from 'src/app/domain/services/department-hierarchy/
   styleUrls: ['./department-form.component.css'],
 })
 export class DepartmentFormComponent {
-  dialogRef: MatDialogRef<DepartmentFormComponent>;
-  departmentForm: FormGroup;
   errorMessage: string = '';
   matcher = new MyErrorStateMatcher();
+  dialogRef: MatDialogRef<DepartmentFormComponent>;
+  departmentForm: FormGroup;
 
   constructor(
               dialogRef: MatDialogRef<DepartmentFormComponent>,
@@ -69,7 +69,7 @@ export class DepartmentFormComponent {
         this.dialogRef.close(this.departmentForm.value.name);
       },
       error: (error) => {
-        this.errorMessage = error.error.detail;
+        this.errorMessage = error.error.userMessage;
       },
     });
   }

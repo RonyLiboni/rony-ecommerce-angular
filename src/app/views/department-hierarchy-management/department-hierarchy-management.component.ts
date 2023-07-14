@@ -42,7 +42,7 @@ export class DepartmentHierarchyManagementComponent implements OnInit {
   }
 
   public getDepartment(): void {
-    this.department = this.getDepartmentInCachedList();
+    this.department = this.addEmptyObjects(this.getDepartmentInCachedList());
   }
 
   private getDepartmentInCachedList(): Department {
@@ -61,7 +61,7 @@ export class DepartmentHierarchyManagementComponent implements OnInit {
     this.departmentService.getBy(name)
     .subscribe({
       next: (department: Department) => {
-        this.department = this.fillEmptyObjects(department);
+        this.department = this.addEmptyObjects(department);
         this.getAllDepartments();
       },
       error: (error) => {
@@ -81,6 +81,12 @@ export class DepartmentHierarchyManagementComponent implements OnInit {
       return department;
     }
 
+    return department;
+  }
+
+  private addEmptyObjects(department: Department): Department {
+    department.subDepartments.forEach((subDepartment) => subDepartment.categories.unshift(new Category()));
+    department.subDepartments.unshift(new SubDepartment());
     return department;
   }
 

@@ -40,10 +40,6 @@
   flex-grow: 1;
 }
 
-::ng-deep mat-form-field div.mat-mdc-form-field-subscript-wrapper {
-  display: none;
-}
-
 h2{
   margin:0;
 }

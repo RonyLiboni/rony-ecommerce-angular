@@ -1,5 +1,11 @@
+.container{
+  max-width: 1200px;
+  margin: 10px auto;
+}
+
 .grid{
   display: grid;
+  margin: 10px
 }
 
 .border_bottom{
@@ -20,16 +26,24 @@
 
 .flex_container {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
 }
 
 .flex_item {
   margin: 10px;
-  flex: 1 1 auto;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  text-align: center;
 }
 
+.grow{
+  flex-grow: 1;
+}
+
+::ng-deep mat-form-field div.mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+h2{
+  margin:0;
+}

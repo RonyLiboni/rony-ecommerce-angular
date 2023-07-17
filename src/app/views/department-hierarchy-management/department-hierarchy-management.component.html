@@ -1,6 +1,6 @@
-<div>
-  <div class="flex_container">
-    <mat-form-field class="flex_item">
+<div class="container">
+  <div class="flex_container ">
+    <mat-form-field class="flex_item grow">
       <mat-label>Department name</mat-label>
       <input matInput type="text" [(ngModel)]="departmentName" (ngModelChange)="getDepartment()">
       <button *ngIf="departmentName" mat-icon-button color="primary" matSuffix aria-label="Search button" (click)="getDepartmentByName(departmentName)">
@@ -12,7 +12,7 @@
     </button>
   </div>
   <br/>
-  <div class="grid" *ngIf="department.name.length > 0">
+  <div class="grid" *ngIf="notBlank(department.name)">
     <div class="grid_column_1 border_bottom">
       <h2>department</h2>
     </div>
@@ -23,24 +23,26 @@
       <h2>category</h2>
     </div>
     <div class="grid_column_1 flex_container border_bottom"
-    [ngStyle]="{ 'grid-row': 'span ' + getDepartmentRowSize(department) }">
+    [style.grid-row]="'span ' + getDepartmentRowSize(department)">
       <h3 class="flex_item">{{ department.name }}</h3>
       <button (click)="openDepartmentForm(department)"><mat-icon color="primary">edit</mat-icon></button>
     </div>
     <ng-container *ngFor="let subDepartment of department.subDepartments">
       <div class="grid_column_2 flex_container border_bottom"
-      [ngStyle]="{ 'grid-row': 'span ' + getSubDepartmentRowSize(subDepartment) }">
+      [style.grid-row]="'span ' + getSubDepartmentRowSize(subDepartment)">
         <h3 class="flex_item">
-          {{ subDepartment.name == '' ? 'Add new subdepartment in '+ department.name : subDepartment.name }}
+          {{ notBlank(subDepartment.name) ? subDepartment.name : 'Add new subdepartment in '+ department.name }}
         </h3>
         <button (click)="openSubDepartmentForm(subDepartment)"><mat-icon color="primary">edit</mat-icon></button>
       </div>
       <div class="grid_column_3 flex_container border_bottom"
         *ngFor="let category of subDepartment.categories">
-        <h3 class="flex_item">{{ category.name == '' ? 'Add new category in '+ subDepartment.name : category.name }}</h3>
-        <button (click)="openCategoryForm(category, subDepartment)">
-          <mat-icon color="primary">edit</mat-icon>
-        </button>
+        <ng-container *ngIf="notBlank(subDepartment.name)">
+          <h3 class="flex_item">{{ notBlank(category.name) ? category.name : 'Add new category in '+ subDepartment.name }}</h3>
+          <button (click)="openCategoryForm(category, subDepartment)">
+            <mat-icon color="primary">edit</mat-icon>
+          </button>
+        </ng-container>
       </div>
     </ng-container>
   </div>

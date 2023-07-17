@@ -19,8 +19,10 @@ export class DepartmentHierarchyManagementComponent implements OnInit {
   departmentName: string = 'computers';
   dialog: MatDialog;
 
-  constructor(private readonly departmentService: DepartmentService,
-              dialog: MatDialog) {
+  constructor(
+    private readonly departmentService: DepartmentService,
+    dialog: MatDialog
+  ) {
     this.dialog = dialog;
   }
 
@@ -30,8 +32,7 @@ export class DepartmentHierarchyManagementComponent implements OnInit {
   }
 
   private getAllDepartments(): void {
-    this.departmentService.getAll()
-    .subscribe({
+    this.departmentService.getAll().subscribe({
       next: (departments: Department[]) => {
         this.departments = departments;
       },
@@ -58,8 +59,7 @@ export class DepartmentHierarchyManagementComponent implements OnInit {
   }
 
   public getDepartmentByName(name: string): void {
-    this.departmentService.getBy(name)
-    .subscribe({
+    this.departmentService.getBy(name).subscribe({
       next: (department: Department) => {
         this.department = this.addEmptyObjects(department);
         this.getAllDepartments();
@@ -70,29 +70,29 @@ export class DepartmentHierarchyManagementComponent implements OnInit {
     });
   }
 
-  private fillEmptyObjects(department: Department): Department {
-    department.subDepartments.forEach((subDepartment) => {
-      if (subDepartment.categories === null || subDepartment.categories.length == 0) {
-        subDepartment.categories = [new Category()];
+  private addEmptyObjects(department: Department): Department {
+    let subDepartments = department.subDepartments;
+
+    subDepartments.forEach((subDepartment) => {
+      if (
+        subDepartment.categories.length == 0 ||
+        !subDepartment.categories.some((c) => c.id === 0)
+      ) {
+        subDepartment.categories.unshift(new Category());
       }
     });
-    if (department.subDepartments === null || department.subDepartments.length == 0) {
-      department.subDepartments = [new SubDepartment()];
-      return department;
+
+    if (subDepartments.length == 0 || !subDepartments.some((s) => s.id === 0)) {
+      subDepartments.unshift(new SubDepartment());
     }
 
     return department;
   }
 
-  private addEmptyObjects(department: Department): Department {
-    department.subDepartments.forEach((subDepartment) => subDepartment.categories.unshift(new Category()));
-    department.subDepartments.unshift(new SubDepartment());
-    return department;
-  }
-
   public getDepartmentRowSize(department: Department): number {
-    return department.subDepartments
-      .reduce((rowSize, subDepartment) => { return rowSize + subDepartment.categories.length;}, 0);
+    return department.subDepartments.reduce((rowSize, subDepartment) => {
+      return rowSize + subDepartment.categories.length;
+    }, 0);
   }
 
   public getSubDepartmentRowSize(subDepartment: SubDepartment): number {
@@ -114,42 +114,41 @@ export class DepartmentHierarchyManagementComponent implements OnInit {
   }
 
   public openSubDepartmentForm(subDepartment: SubDepartment): void {
-    const dialogRef: MatDialogRef<SubDepartmentFormComponent> = this.dialog.open(
-      SubDepartmentFormComponent,
-      {
+    const dialogRef: MatDialogRef<SubDepartmentFormComponent> =
+      this.dialog.open(SubDepartmentFormComponent, {
         data: {
-                departments: this.departments,
-                department : this.department,
-                subDepartment: subDepartment
-              }
-      }
-    );
-    dialogRef.afterClosed()
-      .subscribe((departmentName) => {
-        if (departmentName) {
-          this.formSubmittedSuccessfully(departmentName);
-        }
+          departments: this.departments,
+          department: this.department,
+          subDepartment: subDepartment,
+        },
       });
+    dialogRef.afterClosed().subscribe((departmentName) => {
+      if (departmentName) {
+        this.formSubmittedSuccessfully(departmentName);
+      }
+    });
   }
 
-  public openCategoryForm(category: Category, subDepartment: SubDepartment): void {
+  public openCategoryForm(
+    category: Category,
+    subDepartment: SubDepartment
+  ): void {
     const dialogRef: MatDialogRef<CategoryFormComponent> = this.dialog.open(
       CategoryFormComponent,
       {
         data: {
-                departments: this.departments,
-                category : category,
-                subDepartment: subDepartment
-              }
+          departments: this.departments,
+          category: category,
+          subDepartment: subDepartment,
+        },
       }
     );
 
-    dialogRef.afterClosed()
-      .subscribe((departmentName) => {
-        if (departmentName) {
-          this.formSubmittedSuccessfully(departmentName);
-        }
-      });
+    dialogRef.afterClosed().subscribe((departmentName) => {
+      if (departmentName) {
+        this.formSubmittedSuccessfully(departmentName);
+      }
+    });
   }
 
   public buildEmptyDepartment(): Department {
@@ -166,5 +165,9 @@ export class DepartmentHierarchyManagementComponent implements OnInit {
 
   private formSubmittedSuccessfully(departmentName: string) {
     this.getDepartmentByName(departmentName);
+  }
+
+  public notBlank(string: string): boolean {
+    return string.trim().length > 0;
   }
 }

@@ -1,0 +1,11 @@
+.footer-container{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+.footer-item{
+  margin: 0;
+}

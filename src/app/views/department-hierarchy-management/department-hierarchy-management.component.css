@@ -1,0 +1,45 @@
+.container{
+  max-width: 1200px;
+  margin: 10px auto;
+}
+
+.grid{
+  display: grid;
+  margin: 10px
+}
+
+.border_bottom{
+  border-bottom: 1px solid black;
+}
+
+.grid_column_1{
+  grid-column: 1;
+}
+
+.grid_column_2{
+  grid-column: 2;
+}
+
+.grid_column_3{
+  grid-column: 3;
+}
+
+.flex_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+}
+
+.flex_item {
+  margin: 10px;
+}
+
+.grow{
+  flex-grow: 1;
+}
+
+h2{
+  margin:0;
+}

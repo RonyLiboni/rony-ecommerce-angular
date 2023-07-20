@@ -17,6 +17,9 @@ import { SubDepartmentFormComponent } from './components/department-hierarchy/su
 import { CategoryFormComponent } from './components/department-hierarchy/category/category-form/category-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { FooterComponent } from './components/header-footer/footer/footer.component';
+import { HeaderComponent } from './components/header-footer/header/header.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,8 @@ import { MatSelectModule } from '@angular/material/select';
     DepartmentFormComponent,
     SubDepartmentFormComponent,
     CategoryFormComponent,
+    FooterComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +46,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatCardModule,
     MatDialogModule,
     MatSelectModule,
+    MatToolbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -4,6 +4,10 @@ import { DepartmentHierarchyManagementComponent } from './views/department-hiera
 
 const routes: Routes = [
   { path: '', component: DepartmentHierarchyManagementComponent },
+  {
+    path: 'management/department-hierarchy',
+    component: DepartmentHierarchyManagementComponent,
+  },
 ];
 
 @NgModule({

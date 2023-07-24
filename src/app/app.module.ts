@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FooterComponent } from './components/header-footer/footer/footer.component';
 import { HeaderComponent } from './components/header-footer/header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ProductManagementComponent } from './views/product-management/product-management.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     CategoryFormComponent,
     FooterComponent,
     HeaderComponent,
+    ProductManagementComponent,
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,7 @@ import { DepartmentService } from 'src/app/domain/services/department-hierarchy/
 export class DepartmentHierarchyManagementComponent implements OnInit {
   departments: Department[] = [];
   department: Department = new Department();
-  departmentName: string = 'computers';
+  departmentName: string = '';
   dialog: MatDialog;
 
   constructor(

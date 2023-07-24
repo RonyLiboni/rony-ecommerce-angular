@@ -3,7 +3,7 @@
     <mat-form-field class="flex_item grow">
       <mat-label>Department name</mat-label>
       <input matInput type="text" [(ngModel)]="departmentName" (ngModelChange)="getDepartment()">
-      <button *ngIf="departmentName" mat-icon-button color="primary" matSuffix aria-label="Search button" (click)="getDepartmentByName(departmentName)">
+      <button mat-icon-button color="primary" matSuffix aria-label="Search button" (click)="getDepartmentByName(departmentName)">
         <mat-icon>search</mat-icon>
       </button>
     </mat-form-field>
@@ -11,6 +11,7 @@
       Create Department
     </button>
   </section>
+  <div class="error-message" *ngIf="department.id==0">There are no data for the search you made</div>
   <section class="grid" *ngIf="notBlank(department.name)">
     <div class="grid_column_1 border_bottom">
       <h2>Department</h2>

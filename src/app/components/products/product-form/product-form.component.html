@@ -1,0 +1,73 @@
+<div class="container">
+  <h1>Product Form</h1>
+  <form [formGroup]="formControl" class="flex-form">
+    <mat-error *ngIf="errorMessage">
+      <small>{{ errorMessage }}</small>
+    </mat-error>
+    <div class="form-field-group">
+      <mat-form-field class="form-field-item">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" [errorStateMatcher]="matcher">
+        <mat-error *ngIf="formControl.get('name')?.value === '' || formControl.get('name')?.errors?.['pattern'] || formControl.get('name')?.errors?.['minlength']">
+          The name should have at least 3 characters that are different than white space.
+        </mat-error>
+        <mat-error *ngIf="formControl.get('name')?.errors?.['maxlength']">
+          The name can not have more than 150 characters!
+        </mat-error>
+        <mat-error *ngIf="formControl.get('name')?.errors?.['required']">
+          This field is required!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field-item" *ngIf="!product.sku">
+        <mat-label>Sku</mat-label>
+        <input matInput formControlName="sku" [errorStateMatcher]="matcher">
+        <mat-error *ngIf="formControl.get('sku')?.value === '' || formControl.get('sku')?.errors?.['pattern'] || formControl.get('sku')?.errors?.['minlength']">
+          The sku should have at least 4 characters that are different than white space.
+        </mat-error>
+        <mat-error *ngIf="formControl.get('sku')?.errors?.['maxlength']">
+          The sku can not have more than 36 characters!
+        </mat-error>
+        <mat-error *ngIf="formControl.get('sku')?.errors?.['required']">
+          This field is required!
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="form-field-group">
+      <mat-form-field class="form-field-item">
+        <mat-label>Price</mat-label>
+        <input type="number" min="0" step="0.50" matInput formControlName="price" [errorStateMatcher]="matcher">
+        <mat-error *ngIf="formControl.get('price')?.errors?.['min']">
+          The price should be at leat 0.01 cents.
+        </mat-error>
+        <mat-error *ngIf="formControl.get('price')?.errors?.['required']">
+          This field is required!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field-item">
+        <mat-label>Category</mat-label>
+        <mat-select [(value)]="formControl.value.category.id">
+          <mat-option *ngFor="let category of categories" [value]="category.id" >
+            {{category.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+    <mat-form-field class="form-field-item">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description" [errorStateMatcher]="matcher">
+      <mat-error *ngIf="formControl.get('description')?.value === '' || formControl.get('description')?.errors?.['pattern'] || formControl.get('price')?.errors?.['minlength']">
+        The description should have at least 5 characters that are different than white space.
+      </mat-error>
+      <mat-error *ngIf="formControl.get('description')?.errors?.['maxlength']">
+        The description can not have more than 255 characters!
+      </mat-error>
+      <mat-error *ngIf="formControl.get('description')?.errors?.['required']">
+        This field is required!
+      </mat-error>
+    </mat-form-field>
+    <div class="form-field-group">
+      <button mat-raised-button color="primary" [disabled]="isDisabled()" (click)="save()">Save</button>
+      <button mat-raised-button color="accent" mat-dialog-close (click)="closeForm()">Close</button>
+    </div>
+  </form>
+</div>

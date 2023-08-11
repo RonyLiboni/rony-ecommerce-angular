@@ -15,11 +15,11 @@ export class DepartmentService extends CreateAndEditAbstractService<Department> 
   }
 
   public getBy(name: string): Observable<Department> {
-    return this.http.get<Department>(`${this.API}/${name}`);
+    return this._http.get<Department>(`${this.API}/${name}`);
   }
 
   public getAll(): Observable<Department[]> {
-    return this.http.get<Department[]>(this.API);
+    return this._http.get<Department[]>(this.API);
   }
 
   protected override getEditUrl(department: Department): string {

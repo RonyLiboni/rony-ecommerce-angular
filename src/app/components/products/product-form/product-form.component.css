@@ -1,0 +1,21 @@
+.container{
+  max-width: 1200px;
+  margin: 10px auto;
+}
+
+.flex-form{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-field-group{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.form-field-item {
+  flex-grow: 1;
+}

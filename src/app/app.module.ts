@@ -21,6 +21,11 @@ import { FooterComponent } from './components/header-footer/footer/footer.compon
 import { HeaderComponent } from './components/header-footer/header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ProductManagementComponent } from './views/product-management/product-management.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { ProductFormComponent } from './components/products/product-form/product-form.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +37,7 @@ import { ProductManagementComponent } from './views/product-management/product-m
     FooterComponent,
     HeaderComponent,
     ProductManagementComponent,
+    ProductFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +55,10 @@ import { ProductManagementComponent } from './views/product-management/product-m
     MatDialogModule,
     MatSelectModule,
     MatToolbarModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

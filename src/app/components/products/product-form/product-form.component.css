@@ -19,3 +19,37 @@
 .form-field-item {
   flex-grow: 1;
 }
+
+.image-card {
+  max-width: 200px;
+  justify-content: space-between;
+}
+
+.container-images{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-around;
+}
+
+.end{
+  justify-content: flex-end;
+  margin: 10px;
+}
+
+.align-center{
+  text-align: center;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -12,8 +12,8 @@
     Create product
   </button>
   <div class="table-container">
-    <table mat-table [dataSource]="products" class="table"
-           matSort matSortActive="SKU" matSortDisableClear matSortDirection="asc">
+    <table mat-table [dataSource]="products" class="table" matSort matSortActive="SKU"
+     matSortDisableClear matSortDirection="asc">
       <ng-container matColumnDef="SKU">
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
           SKU
@@ -42,7 +42,10 @@
           <button [routerLink]="'/management/products/form/'+product.id"><mat-icon color="primary">edit</mat-icon></button>
         </td>
       </ng-container>
-
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell main-title" colspan="5">
+          <h2>There is no data <span *ngIf="queryControl.value">for the filter '{{ input.value }}'</span></h2></td>
+      </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>

@@ -20,10 +20,6 @@ const routes: Routes = [
   {
     path: 'management/products/form',
     component: ProductFormComponent
-  },
-  {
-    path: '',
-    component: ProductFormComponent
   }
 ];
 

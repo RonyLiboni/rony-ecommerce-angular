@@ -8,4 +8,11 @@ export class Product{
     name: string;
   }
   description!: string;
+  images: ProductImage[] = [];
+}
+
+export class ProductImage{
+  url!: string;
+  imageOrder!: number;
+  key!: string;
 }

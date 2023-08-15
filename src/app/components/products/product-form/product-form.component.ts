@@ -6,6 +6,9 @@ import { Category } from 'src/app/domain/models/department-hierarchy/Category';
 import { Product } from 'src/app/domain/models/product/Product';
 import { CategoryService } from 'src/app/domain/services/department-hierarchy/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ProductImageFormComponent } from '../product-image-form/product-image-form.component';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-product-form',
@@ -18,18 +21,28 @@ export class ProductFormComponent implements OnInit{
   matcher = new MyErrorStateMatcher();
   categories: Category[] = [];
   product: Product = new Product();
+  dialog: MatDialog;
+  isLoadingResult: boolean = false;
 
   constructor(private readonly _productService: ProductService,
               private readonly _categoryService: CategoryService,
               private readonly _activatedRoute: ActivatedRoute,
               private readonly _router: Router,
-              private readonly _formBuilder: FormBuilder) { }
+              private readonly _formBuilder: FormBuilder,
+              dialog: MatDialog
+            ) {
+    this.dialog = dialog;
+  }
 
   public ngOnInit(): void {
     this._categoryService.getAll()
-                    .subscribe(c => this.categories = c);
+                          .subscribe(c => this.categories = c);
     this.formControl = this.buildForm();
     this.setFormValuesIfIdWasSent();
+    this.formControl.statusChanges.subscribe(c=> {
+      console.log(c);
+      console.log(this.formControl);
+    })
   }
 
   private buildForm() {
@@ -52,9 +65,7 @@ export class ProductFormComponent implements OnInit{
                           Validators.maxLength(255),
                           Validators.pattern(/^(?!\s*$)(?=(.*\S){5}).*$/)
                           ]],
-      category: {
-                    id: [null, [Validators.required]]
-                }
+      category: [null, Validators.required]
     });
   }
 
@@ -68,7 +79,7 @@ export class ProductFormComponent implements OnInit{
                               this.setInitialProperties(p);
                             },
                             error: (error) => {
-                              this.errorMessage = error.error.detail;
+                              this.errorMessage = error.error.validationErrors[0].userMessage ?? error.error.detail;
                             },
                           });
 
@@ -81,9 +92,7 @@ export class ProductFormComponent implements OnInit{
       name: product.name,
       sku: 'CANNOT EDIT SKU',
       price: product.price,
-      category: {
-                  id: product.category.id
-                },
+      category: product.category,
       description: product.description
     });
   }
@@ -97,23 +106,29 @@ export class ProductFormComponent implements OnInit{
   }
 
   private create(): void {
+    this.isLoadingResult = true;
     this._productService.create(this.formControl.value).subscribe({
-      next: (empty) => {
+      next: (response) => {
         this.closeForm();
+        this.isLoadingResult = false;
       },
       error: (error) => {
-        this.errorMessage = error.error.detail;
+        this.errorMessage = error.error.validationErrors[0].userMessage ?? error.error.detail;
+        this.isLoadingResult = false;
       },
     });
   }
 
   private edit(): void {
+    this.isLoadingResult = true;
     this._productService.edit(this.formControl.value).subscribe({
       next: (empty) => {
         this.closeForm();
+        this.isLoadingResult = false;
       },
       error: (error) => {
-        this.errorMessage = error.error.detail;
+        this.errorMessage = error.error.validationErrors[0].userMessage ?? error.error.detail;
+        this.isLoadingResult = false;
       },
     });
   }
@@ -126,7 +141,89 @@ export class ProductFormComponent implements OnInit{
     this._router.navigate(['/management/products']);
   }
 
-  public tes(){
-    return 'ste'
+  public deleteImage(id: number, imageKey: string): void{
+    this.isLoadingResult = true;
+    this._productService.deleteImage(id, imageKey)
+                        .subscribe({
+                          next: (empty) => {
+                            this.product.images = this.product.images.filter(image => image.key !== imageKey);
+                            this.isLoadingResult = false;
+                          },
+                          error: (error) => {
+                            this.errorMessage = error.error.detail;
+                            this.isLoadingResult = false;
+                          },
+                        });;
   }
+
+  public openProductImageCreateForm():void{
+    if(!this.product.id){
+      this.createProductAndOpenProductImageForm();
+      return;
+    }
+    this.openProductImageFormModal();
+  }
+
+  private createProductAndOpenProductImageForm():void{
+    this.isLoadingResult = true;
+    this._productService.create(this.formControl.value).subscribe({
+      next: (response) => {
+        this.product.id = this.getIdFromLocation(response);
+        this.formControl.value.id = this.product.id;
+        this.openProductImageFormModal();
+        this.isLoadingResult = false;
+      },
+      error: (error) => {
+        this.errorMessage = error.error.validationErrors[0].userMessage ?? error.error.detail;
+        this.isLoadingResult = false;
+      },
+    });
+  }
+
+  private getIdFromLocation(response: HttpResponse<Product>): number{
+    let location = response.headers.get('location');
+    if(location){
+      let locationSplited = location.split("/");
+      return Number(locationSplited[locationSplited.length - 1]);
+    }
+    throw Error("It was not found a location in the header response");
+  }
+
+  private openProductImageFormModal(): void{
+    const dialogRef: MatDialogRef<ProductImageFormComponent> =
+    this.dialog.open(ProductImageFormComponent, {
+      data: {
+        productId: this.product.id,
+        imageOrder: this.product.images.length + 1 ?? 2
+      },
+    });
+    dialogRef.afterClosed().subscribe((productImage) => {
+      if (productImage) {
+        this.product.images.push(productImage);
+        this.sortProductImages();
+      }
+    });
+  }
+
+  public openProductImageEditForm(imageKey: string, imageOrder: number):void{
+    const dialogRef: MatDialogRef<ProductImageFormComponent> =
+    this.dialog.open(ProductImageFormComponent, {
+      data: {
+        productId: this.product.id,
+        imageKey: imageKey,
+        imageOrder: imageOrder
+      },
+    });
+    dialogRef.afterClosed().subscribe((newImageOrder) => {
+      if(newImageOrder){
+        this.product.images.find(i=> i.key == imageKey)!.imageOrder= newImageOrder;
+        this.sortProductImages();
+      }
+    });
+  }
+
+  private sortProductImages():void{
+    this.product.images = this.product.images.sort((a, b) => a.imageOrder - b.imageOrder);
+  }
+
 }

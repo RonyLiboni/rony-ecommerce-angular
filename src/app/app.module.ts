@@ -26,6 +26,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
+import { ProductImageFormComponent } from './components/products/product-image-form/product-image-form.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ProductFormComponent } from './components/products/product-form/product
     HeaderComponent,
     ProductManagementComponent,
     ProductFormComponent,
+    ProductImageFormComponent,
   ],
   imports: [
     BrowserModule,

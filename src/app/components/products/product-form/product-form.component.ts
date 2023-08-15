@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ProductImageFormComponent } from '../product-image-form/product-image-form.component';
 import { HttpResponse } from '@angular/common/http';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-product-form',
@@ -65,6 +66,7 @@ export class ProductFormComponent implements OnInit{
                           Validators.maxLength(255),
                           Validators.pattern(/^(?!\s*$)(?=(.*\S){5}).*$/)
                           ]],
+      categoryId: [null, Validators.required],
       category: [null, Validators.required]
     });
   }
@@ -93,6 +95,7 @@ export class ProductFormComponent implements OnInit{
       sku: 'CANNOT EDIT SKU',
       price: product.price,
       category: product.category,
+      categoryId: product.category.id,
       description: product.description
     });
   }
@@ -224,6 +227,12 @@ export class ProductFormComponent implements OnInit{
 
   private sortProductImages():void{
     this.product.images = this.product.images.sort((a, b) => a.imageOrder - b.imageOrder);
+  }
+
+  public addCategory(select : MatSelectChange) : void{
+    this.formControl.patchValue({
+      category: this.categories.find(c=> c.id == select.value)
+    });
   }
 
 }

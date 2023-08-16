@@ -1,0 +1,55 @@
+<h1 class="main-title">Product Management</h1>
+<div class="container mat-elevation-z8">
+  <div class="loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <mat-form-field>
+    <mat-label>Filter by SKU</mat-label>
+    <input matInput [formControl]="queryControl" placeholder="Digite um SKU ou parte dele" #input>
+  </mat-form-field>
+  <button [routerLink]="'/management/products/form'" mat-raised-button color="primary" >
+    Create product
+  </button>
+  <div class="table-container">
+    <table mat-table [dataSource]="products" class="table" matSort matSortActive="SKU"
+     matSortDisableClear matSortDirection="asc">
+      <ng-container matColumnDef="SKU">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+          SKU
+        </th>
+        <td mat-cell *matCellDef="let product">{{product.sku}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let product">{{product.name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef="let product">{{product.price | currency: 'USD' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <td mat-cell *matCellDef="let product">{{product.category.name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>actions</th>
+        <td mat-cell *matCellDef="let product">
+          <button [routerLink]="'/management/products/form/'+product.id"><mat-icon color="primary">edit</mat-icon></button>
+        </td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell main-title" colspan="5">
+          <h2>There is no data <span *ngIf="queryControl.value">for the filter '{{ input.value }}'</span></h2></td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 15]" aria-label="Select page of product search results"></mat-paginator>
+</div>

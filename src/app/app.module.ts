@@ -20,6 +20,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { FooterComponent } from './components/header-footer/footer/footer.component';
 import { HeaderComponent } from './components/header-footer/header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ProductManagementComponent } from './views/product-management/product-management.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { ProductFormComponent } from './components/products/product-form/product-form.component';
+import { ProductImageFormComponent } from './components/products/product-image-form/product-image-form.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +37,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     CategoryFormComponent,
     FooterComponent,
     HeaderComponent,
+    ProductManagementComponent,
+    ProductFormComponent,
+    ProductImageFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +57,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatDialogModule,
     MatSelectModule,
     MatToolbarModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

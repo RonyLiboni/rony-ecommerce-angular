@@ -43,3 +43,13 @@
 h2{
   margin:0;
 }
+
+.error-message{
+  color: red;
+  text-align: center;
+}
+
+.main-title{
+  text-align: center;
+  margin: 10px;
+}

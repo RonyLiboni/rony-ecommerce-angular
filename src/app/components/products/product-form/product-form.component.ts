@@ -40,10 +40,6 @@ export class ProductFormComponent implements OnInit{
                           .subscribe(c => this.categories = c);
     this.formControl = this.buildForm();
     this.setFormValuesIfIdWasSent();
-    this.formControl.statusChanges.subscribe(c=> {
-      console.log(c);
-      console.log(this.formControl);
-    })
   }
 
   private buildForm() {

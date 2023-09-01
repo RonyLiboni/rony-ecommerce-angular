@@ -1,16 +1,80 @@
-<div class="view-container">
-  <div class="products">
-    <div *ngFor="let product of products">
-      <mat-card class="product-card">
-        <div class="image-container">
-          <img mat-card-image *ngIf="product.images.length > 0" [src]="product.images[0].url" alt="">
-        </div>
-        <mat-card-content>{{ product.name | slice:0:75 }} </mat-card-content>
-        <mat-card-content class="price">{{ product.price | currency: 'USD'  }}</mat-card-content>
-        <button mat-raised-button color="primary" (click)="addToCart()"><mat-icon>add_shopping_cart</mat-icon>BUY</button>
-      </mat-card>
+<div class="container-view">
+  <form [formGroup]="queryControl">
+    <div class="search-container">
+      <mat-form-field class="product-search">
+        <mat-label>Search a product here</mat-label>
+        <input matInput type="text" formControlName="name">
+        <button mat-icon-button color="primary" matSuffix aria-label="Search button">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
     </div>
-  </div>
-  <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 20, 50]" aria-label="Select page of product search results"></mat-paginator>
+    <div class="products-and-filter">
+      <div [ngClass]="shouldShowFilter ? 'side-filter' : 'hide'">
+        <div class="filter-group">
+          <h4 class="input-title">Price range</h4>
+          <small>From</small>
+          <input class="price-input" type="number" placeholder="min price" formControlName="startPrice">
+          <small>To</small>
+          <input class="price-input" type="number" placeholder="max price" formControlName="endPrice">
+        </div>
+        <div class="filter-group">
+          <h4 class="input-title">Department</h4>
+          <div class="checkbox-input" *ngFor="let department of filtersAvailable.departments">
+            <input type="checkbox" (change)="addInDepartmentHierarchyFilter($event, department, 'departmentsDTO')">{{ department }}
+          </div>
+        </div>
+        <div class="filter-group">
+          <h4 class="input-title">SubDepartment</h4>
+          <div class="checkbox-input" *ngFor="let subDepartment of filtersAvailable.subDepartments">
+            <input type="checkbox" (change)="addInDepartmentHierarchyFilter($event, subDepartment, 'subDepartmentsDTO')">{{ subDepartment }}
+          </div>
+        </div>
+        <div class="filter-group">
+          <h4 class="input-title">Category</h4>
+          <div class="checkbox-input" *ngFor="let category of filtersAvailable.categories">
+            <input type="checkbox" (change)="addInDepartmentHierarchyFilter($event, category, 'categoriesDTO')">{{ category }}
+          </div>
+        </div>
+      </div>
+      <h4 [ngClass]="errorMessage.length > 0 ? 'error-message' : 'hide'">{{ errorMessage }}</h4>
+      <div [ngClass]="errorMessage.length == 0 ? 'product-view' : 'hide'">
+        <div class="sort">
+          <button mat-stroked-button color="primary" (click)="shouldShowFilter = !shouldShowFilter">
+            <mat-icon>filter_list</mat-icon>Filters
+          </button>
+          <div class="sort-item">
+            <button mat-stroked-button color="primary">
+            <label for="sortField">Sort by </label>
+            <select color="primary" id="sortField" formControlName="sortField" [(value)]="queryControl.value.sortField">
+              <option *ngFor="let sortField of sortFields" [value]="sortField">{{ sortField }}</option>
+            </select>
+            <select id="sortDirection" formControlName="sortDirection" >
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select></button>
+          </div>
+          <button mat-stroked-button color="primary" class="sort-item">{{ resultsLength }} Products found!</button>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="products">
+            <mat-card class="product-card" *ngFor="let product of products">
+              <div class="image-container">
+                <img mat-card-image *ngIf="product.images.length > 0" [src]="product.images[0].url" alt="">
+              </div>
+              <mat-card-content>{{ product.name | slice:0:63 }}<span *ngIf="product.name.length > 63">...</span></mat-card-content>
+              <mat-card-content class="price">{{ product.price | currency: 'USD' }}</mat-card-content>
+              <button mat-raised-button color="primary"
+                (click)="addToCart()"><mat-icon>add_shopping_cart</mat-icon>BUY</button>
+            </mat-card>
+        </div>
+        <div>
+          <div class="paginator-container">
+            <mat-paginator [length]="resultsLength" [pageSizeOptions]="pageSizeOptions"
+              aria-label="Select page of product search results"></mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
-

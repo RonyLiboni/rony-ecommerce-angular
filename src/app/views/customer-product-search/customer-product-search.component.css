@@ -1,7 +1,25 @@
+.search-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.product-search{
+  width: 60%;
+  min-width: 235px;
+}
+
+.product-view{
+  display: flex;
+  flex-direction: column;
+}
+
 .products {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 15px;
+  margin: 10px;
 }
 
 .product-card {
@@ -27,11 +45,66 @@ img {
   max-width: 100%;
 }
 
-mat-card-content {
-  font-size: 14px;
-}
-
 .price{
   font-size: 20px;
 }
 
+.products-and-filter{
+  display: flex;
+  margin-left: 30px;
+  align-items: flex-start;
+}
+
+.side-filter{
+  width: 230px;
+  padding: 10px;
+  margin-right: 10px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(240, 240, 240);
+}
+
+.paginator-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.sort{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 5px;
+  align-items: center;
+}
+
+.input-title{
+  margin: 0;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+.checkbox-input{
+  margin-left: 10px;
+}
+
+.price-input{
+  margin: 5px;
+  max-width: 150px;
+}
+
+.error-message{
+  color: red;
+}
+
+.hide{
+  display: none;
+}
+
+.filter-group{
+  display: flex;
+  flex-direction: column;
+  min-width: 210px;
+}

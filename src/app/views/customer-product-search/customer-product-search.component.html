@@ -62,7 +62,7 @@
               <div class="image-container">
                 <img mat-card-image *ngIf="product.images.length > 0" [src]="product.images[0].url" alt="">
               </div>
-              <mat-card-content>{{ product.name | slice:0:63 }}<span *ngIf="product.name.length > 63">...</span></mat-card-content>
+              <mat-card-content>{{ product.name | slice:0:70 }}<span *ngIf="product.name.length > 70">...</span></mat-card-content>
               <mat-card-content class="price">{{ product.price | currency: 'USD' }}</mat-card-content>
               <button mat-raised-button color="primary"
                 (click)="addToCart()"><mat-icon>add_shopping_cart</mat-icon>BUY</button>

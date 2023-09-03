@@ -13,6 +13,9 @@
 .product-view{
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  margin: 0 10px;
+  gap: 10px;
 }
 
 .products {
@@ -23,11 +26,9 @@
 }
 
 .product-card {
-  width: 235px;
-  height: 330px;
   justify-content: space-between;
-  overflow: hidden;
   display: flex;
+  height: 330px;
 }
 
 .image-container {
@@ -38,6 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: center;
 }
 
 img {
@@ -51,18 +53,18 @@ img {
 
 .products-and-filter{
   display: flex;
-  margin-left: 30px;
   align-items: flex-start;
 }
 
 .side-filter{
   width: 230px;
   padding: 10px;
-  margin-right: 10px;
   font-size: 14px;
   display: flex;
   flex-direction: column;
-  background-color: rgb(240, 240, 240);
+  background-color: #673AB7;
+  color: #FFFFFFFF;
+  border-radius: 5px;
 }
 
 .paginator-container {
@@ -76,7 +78,6 @@ img {
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 10px;
-  margin: 5px;
   align-items: center;
 }
 
@@ -107,4 +108,16 @@ img {
   display: flex;
   flex-direction: column;
   min-width: 210px;
+}
+
+.clear-filter{
+  font-size: 12px;
+}
+
+form{
+  margin: 0 30px 0 30px
+}
+
+.primary-color{
+  color: #673AB7;
 }

@@ -5,6 +5,6 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .view-container{
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 10px auto;
 }

@@ -1,4 +1,4 @@
-<div class="container-view">
+<div class="view-container">
   <form [formGroup]="queryControl">
     <div class="search-container">
       <mat-form-field class="product-search">
@@ -21,46 +21,47 @@
         <div class="filter-group">
           <h4 class="input-title">Department</h4>
           <div class="checkbox-input" *ngFor="let department of filtersAvailable.departments">
-            <input type="checkbox" (change)="addInDepartmentHierarchyFilter($event, department, 'departmentsDTO')">{{ department }}
+            <input type="checkbox" [checked]="isChecked('departmentsDTO', department)" (change)="addInDepartmentHierarchyFilter($event, department, 'departmentsDTO')">{{ department }}
           </div>
         </div>
         <div class="filter-group">
           <h4 class="input-title">SubDepartment</h4>
           <div class="checkbox-input" *ngFor="let subDepartment of filtersAvailable.subDepartments">
-            <input type="checkbox" (change)="addInDepartmentHierarchyFilter($event, subDepartment, 'subDepartmentsDTO')">{{ subDepartment }}
+            <input type="checkbox" [checked]="isChecked('subDepartmentsDTO', subDepartment)" (change)="addInDepartmentHierarchyFilter($event, subDepartment, 'subDepartmentsDTO')">{{ subDepartment }}
           </div>
         </div>
         <div class="filter-group">
           <h4 class="input-title">Category</h4>
           <div class="checkbox-input" *ngFor="let category of filtersAvailable.categories">
-            <input type="checkbox" (change)="addInDepartmentHierarchyFilter($event, category, 'categoriesDTO')">{{ category }}
+            <input type="checkbox" [checked]="isChecked('categoriesDTO', category)" (change)="addInDepartmentHierarchyFilter($event, category, 'categoriesDTO')">{{ category }}
           </div>
         </div>
       </div>
-      <h4 [ngClass]="errorMessage.length > 0 ? 'error-message' : 'hide'">{{ errorMessage }}</h4>
-      <div [ngClass]="errorMessage.length == 0 ? 'product-view' : 'hide'">
+      <div class="product-view">
         <div class="sort">
-          <button mat-stroked-button color="primary" (click)="shouldShowFilter = !shouldShowFilter">
-            <mat-icon>filter_list</mat-icon>Filters
+          <button mat-stroked-button color="primary" *ngIf="howManyFiltersAreUsed() === 0;else ButtonWithBadge" (click)="toggleFilter()">
+            Filters<mat-icon>filter_list</mat-icon>
           </button>
-          <div class="sort-item">
-            <button mat-stroked-button color="primary">
-            <label for="sortField">Sort by </label>
-            <select color="primary" id="sortField" formControlName="sortField" [(value)]="queryControl.value.sortField">
-              <option *ngFor="let sortField of sortFields" [value]="sortField">{{ sortField }}</option>
-            </select>
-            <select id="sortDirection" formControlName="sortDirection" >
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-            </select></button>
+          <div>
+            <button class="sort-item" mat-stroked-button color="primary">
+              <span>Sort by </span>
+              <select class="primary-color" id="sortField" formControlName="sortField" [(value)]="queryControl.value.sortField">
+                <option *ngFor="let sortField of sortFields" [value]="sortField">{{ sortField }}</option>
+              </select>
+              <select class="primary-color" formControlName="sortDirection" >
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
+            </button>
           </div>
           <button mat-stroked-button color="primary" class="sort-item">{{ resultsLength }} Products found!</button>
         </div>
         <mat-divider></mat-divider>
-        <div class="products">
-            <mat-card class="product-card" *ngFor="let product of products">
+        <h4 [ngClass]="errorMessage.length > 0 ? 'error-message' : 'hide'">{{ errorMessage }}</h4>
+        <div class="products" [ngClass]="errorMessage.length == 0 ? '' : 'hide'">
+            <mat-card class="product-card" [style.width]="cardWidth" *ngFor="let product of products">
               <div class="image-container">
-                <img mat-card-image *ngIf="product.images.length > 0" [src]="product.images[0].url" alt="">
+                <img mat-card-image *ngIf="product.images.length > 0;else NoImageAvailable" [src]="product.images[0].url" alt="">
               </div>
               <mat-card-content>{{ product.name | slice:0:70 }}<span *ngIf="product.name.length > 70">...</span></mat-card-content>
               <mat-card-content class="price">{{ product.price | currency: 'USD' }}</mat-card-content>
@@ -78,3 +79,14 @@
     </div>
   </form>
 </div>
+
+<ng-template #ButtonWithBadge>
+  <button mat-stroked-button color="primary" [matBadge]="howManyFiltersAreUsed()" matBadgeColor="accent" (click)="toggleFilter()">
+    Filters<mat-icon>filter_list</mat-icon>
+  </button>
+  <button mat-button color="primary" class="clear-filter" (click)="clearFilters()">Clear filters</button>
+</ng-template>
+
+<ng-template #NoImageAvailable>
+  <img mat-card-image src="assets/product/noImageAvailable.jpeg" alt="No pictures were uploaded to this product">
+</ng-template>

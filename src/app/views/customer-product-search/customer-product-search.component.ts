@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
-import { AfterViewInit, Component, ViewChild, OnInit, HostListener, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, ViewChild, OnInit, HostListener, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { merge, debounceTime, startWith, switchMap } from 'rxjs';
 import { Product } from 'src/app/domain/models/product/Product';

@@ -27,6 +27,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
 import { ProductImageFormComponent } from './components/products/product-image-form/product-image-form.component';
+import { CustomerProductSearchComponent } from './views/customer-product-search/customer-product-search.component';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { ProductImageFormComponent } from './components/products/product-image-f
     ProductManagementComponent,
     ProductFormComponent,
     ProductImageFormComponent,
+    CustomerProductSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +64,7 @@ import { ProductImageFormComponent } from './components/products/product-image-f
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatBadgeModule
   ],
   providers: [],
   bootstrap: [AppComponent],

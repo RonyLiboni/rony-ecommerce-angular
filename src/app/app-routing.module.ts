@@ -4,6 +4,7 @@ import { DepartmentHierarchyManagementComponent } from './views/department-hiera
 import { ProductManagementComponent } from './views/product-management/product-management.component';
 import { ProductFormComponent } from './components/products/product-form/product-form.component';
 import { CustomerProductSearchComponent } from './views/customer-product-search/customer-product-search.component';
+import { CustomerProductDetailViewComponent } from './views/customer-product-detail-view/customer-product-detail-view.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: '',
     component: CustomerProductSearchComponent
+  },
+  {
+    path: 'product-details/:id',
+    component: CustomerProductDetailViewComponent
   }
 ];
 

@@ -1,0 +1,44 @@
+<div class="view-container product-view-container" *ngIf="product; else ThereIsNoProductInThisPage">
+  <div class="web-paths">
+    <a class="web-path-anchor" (click)="getHomeUrl()">Home</a> <mat-icon>arrow_right</mat-icon>
+    <a class="web-path-anchor" (click)="getQueryUrl('departmentsDTO', product.department)"> {{ product.department}}</a> <mat-icon>arrow_right</mat-icon>
+    <a class="web-path-anchor" (click)="getQueryUrl('subDepartmentsDTO', product.subDepartment)"> {{ product.subDepartment}}</a> <mat-icon>arrow_right</mat-icon>
+    <a class="web-path-anchor" (click)="getQueryUrl('categoriesDTO', product.category.name)"> {{ product.category.name}}</a> <mat-icon>arrow_right</mat-icon>
+    {{product.name | slice:0:40}}
+  </div>
+  <mat-divider></mat-divider>
+  <div class="product-container">
+    <div class="product-images-container" *ngIf="product.images.length > 0;else NoImageAvailable">
+        <img class="image-presented" [src]="imageBeingPresented.url" alt="">
+        <div class="images-container" *ngIf="product.images.length > 1">
+          <mat-icon class="arrow-icon" (click)="scroll(-60)" (scroll)="scroll(-60)">keyboard_arrow_up</mat-icon>
+          <div class="images-list" #scrollContainer>
+            <img class="image-in-list" [ngClass]="{'image-selected': image.url == imageBeingPresented.url}" (click)="sendToBePresented(image)" *ngFor="let image of product.images" [src]="image.url" alt="">
+          </div>
+          <mat-icon class="arrow-icon" (click)="scroll(60)" (scroll)="scroll(60)">keyboard_arrow_down</mat-icon>
+        </div>
+    </div>
+    <div class="product-information">
+      <div class="name-info">
+        <h1 class="product-name">{{ product.name }}</h1>
+        <small>SKU: {{product.sku}} Category: {{product.category.name}}</small>
+      </div>
+      <h1 class="product-price">{{ product.price | currency: 'USD' }}</h1>
+      <button mat-raised-button color="primary" class="buy-button" (click)="notImplemented()">
+        <mat-icon>add_shopping_cart</mat-icon>BUY
+      </button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="product-description-view" (click)="notImplemented()">Description (will be implemented in the future) <mat-icon class="arrow-icon">keyboard_arrow_down</mat-icon></div>
+  <mat-divider></mat-divider>
+  <div class="product-technical-details-view" (click)="notImplemented()">Technical details (will be implemented in the future) <mat-icon class="arrow-icon">keyboard_arrow_down</mat-icon></div>
+</div>
+
+<ng-template #NoImageAvailable>
+  <img mat-card-image src="assets/product/noImageAvailable.jpeg" alt="No pictures were uploaded to this product">
+</ng-template>
+
+<ng-template #ThereIsNoProductInThisPage>
+  <h2>An error happened</h2>
+</ng-template>

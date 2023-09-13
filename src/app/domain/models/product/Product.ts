@@ -1,3 +1,4 @@
+import { SubDepartment } from './../department-hierarchy/SubDepartment';
 export class Product{
   id!: number;
   sku!: string;
@@ -9,6 +10,8 @@ export class Product{
   }
   description!: string;
   images: ProductImage[] = [];
+  subDepartment!: string;
+  department!: string;
 }
 
 export class ProductImage{

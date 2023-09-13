@@ -29,6 +29,12 @@
   justify-content: space-between;
   display: flex;
   height: 330px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
 }
 
 .image-container {

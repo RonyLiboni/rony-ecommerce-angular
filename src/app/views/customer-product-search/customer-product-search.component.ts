@@ -2,6 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { AfterViewInit, Component, ViewChild, OnInit, HostListener, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
+import { ActivatedRoute } from '@angular/router';
 import { merge, debounceTime, startWith, switchMap } from 'rxjs';
 import { Product } from 'src/app/domain/models/product/Product';
 import { CustomerSearchFilters, CustomerSearchService } from 'src/app/domain/services/customer-search/customer-search.service';
@@ -27,13 +28,23 @@ export class CustomerProductSearchComponent implements AfterViewInit, OnInit{
   constructor(private readonly _customerSearchService: CustomerSearchService,
               private readonly _formBuilder: FormBuilder,
               private readonly _elementRef: ElementRef,
-              private readonly _changeDetectorRef: ChangeDetectorRef) {}
+              private readonly _changeDetectorRef: ChangeDetectorRef,
+              private readonly _activatedRoute: ActivatedRoute) {}
 
   public ngOnInit(): void {
     this.queryControl = this.buildForm();
     if(window.innerWidth < 800 && this.shouldShowFilter){
       this.shouldShowFilter = false;
     }
+
+    this._activatedRoute.queryParams.subscribe(params => {
+      const fieldName = params['fieldName'];
+      const value = params['value'];
+      if(fieldName && value){
+        const event = { target: { checked: true }}
+        this.addInDepartmentHierarchyFilter(event, value, fieldName);
+      }
+    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -175,6 +186,10 @@ export class CustomerProductSearchComponent implements AfterViewInit, OnInit{
     const name = this.queryControl.value.name;
     this.queryControl.reset();
     this.queryControl.setValue({ name: name});
+  }
+
+  public getProductDetailsUrl(id: number, name: string): string{
+    return `/product-details/${id}`;
   }
 
 }

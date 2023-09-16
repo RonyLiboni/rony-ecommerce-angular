@@ -29,6 +29,7 @@ import { ProductFormComponent } from './components/products/product-form/product
 import { ProductImageFormComponent } from './components/products/product-image-form/product-image-form.component';
 import { CustomerProductSearchComponent } from './views/customer-product-search/customer-product-search.component';
 import {MatBadgeModule} from '@angular/material/badge';
+import { CustomerProductDetailViewComponent } from './views/customer-product-detail-view/customer-product-detail-view.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     ProductFormComponent,
     ProductImageFormComponent,
     CustomerProductSearchComponent,
+    CustomerProductDetailViewComponent,
   ],
   imports: [
     BrowserModule,

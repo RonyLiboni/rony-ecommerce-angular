@@ -48,6 +48,7 @@ export class CustomerProductDetailViewComponent implements OnInit{
 
   public scroll(scrollSize: number) {
     this.scrollContainer.nativeElement.scrollTop += scrollSize;
+    this.scrollContainer.nativeElement.scrollLeft += scrollSize;
   }
 
   public sendToBePresented(image: ProductImage): void{

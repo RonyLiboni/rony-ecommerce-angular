@@ -12,14 +12,14 @@
   <mat-divider></mat-divider>
   <div class="product-container">
     <div class="product-images-container" *ngIf="product.images.length > 0;else NoImageAvailable">
-        <img class="image-presented" [src]="imageBeingPresented.url" alt="">
-        <div class="images-container" *ngIf="product.images.length > 1">
-          <mat-icon class="arrow-icon rotate-270" (click)="scroll(-60)" *ngIf="product.images.length > 5">keyboard_arrow_up</mat-icon>
-          <div class="images-list" #scrollContainer>
-            <img class="image-in-list" [ngClass]="{'image-selected': image.url == imageBeingPresented.url}" (click)="sendToBePresented(image)" *ngFor="let image of product.images" [src]="image.url" alt="">
-          </div>
-          <mat-icon class="arrow-icon rotate-270" (click)="scroll(60)" *ngIf="product.images.length > 5">keyboard_arrow_down</mat-icon>
+      <img class="image-presented" [src]="imageBeingPresented.url" alt="">
+      <div class="images-container" *ngIf="product.images.length > 1">
+        <mat-icon class="arrow-icon rotate-270" (click)="scroll(-60)" *ngIf="product.images.length >= 5">keyboard_arrow_up</mat-icon>
+        <div class="images-list" #scrollContainer>
+          <img class="image-in-list" [ngClass]="{'image-selected': image.url == imageBeingPresented.url}" (click)="sendToBePresented(image)" *ngFor="let image of product.images" [src]="image.url" alt="">
         </div>
+        <mat-icon class="arrow-icon rotate-270" (click)="scroll(60)" *ngIf="product.images.length >= 5">keyboard_arrow_down</mat-icon>
+      </div>
     </div>
     <div class="product-information">
       <div class="name-info">
